@@ -29,7 +29,20 @@ data:
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-
     # Enable SSL Session Cache
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
+
+    # Enable HTTP/2 for improved performance
+    http2_max_concurrent_streams 64;
+
+    # Tune worker_processes and worker_connections for your hardware
+    worker_processes auto;
+    worker_connections 2048;
+
+    # Increase the number of open files for Nginx
+    worker_rlimit_nofile 8192;
+
+    # Enable TCP optimizations
+    tcp_nodelay on;
+    tcp_nopush on;
