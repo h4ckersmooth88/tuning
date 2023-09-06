@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configuration
+  namespace: ingress-nginx
+data:
+  enable-vts-status: "true" # Enable the Nginx virtual host status module for monitoring (optional)
+  http-snippet: |
+    proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m use_temp_path=off;
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_min_length 256;
+    gzip_types application/javascript text/css text/plain text/xml application/json application/xml application/rss+xml application/atom+xml image/svg+xml;
+
+    # Buffering Configuration
+    proxy_buffer_size 8k;
+    proxy_buffers 2048 8k;
+    proxy_busy_buffers_size 16k;
+
+    # Timeout Settings
+    proxy_read_timeout 60s;
+    proxy_send_timeout 60s;
+    keepalive_timeout 60s;
+
+    # Enable client IP preservation in the X-Forwarded-For header
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
