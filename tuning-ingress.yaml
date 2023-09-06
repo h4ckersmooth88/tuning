@@ -29,3 +29,8 @@ data:
     # Enable client IP preservation in the X-Forwarded-For header
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+
+    # Enable SSL Session Cache
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
